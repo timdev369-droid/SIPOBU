@@ -1,0 +1,122 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Akun pengguna aplikasi ARKAS (Lembaga atau CV)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "username": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["LEMBAGA", "CV"] },
+        "status": { "type": "string", "enum": ["ACTIVE", "INACTIVE"] },
+        "lembagaId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "username", "email", "role", "status"]
+    },
+    "Lembaga": {
+      "title": "Lembaga",
+      "description": "Profil sekolah atau lembaga pendidikan pengaju buku",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "npsn": { "type": "string" },
+        "namaLembaga": { "type": "string" },
+        "jenjang": { "type": "string", "enum": ["PAUD", "TK", "SD", "SMP", "SMA", "SMK", "PKBM", "Lainnya"] },
+        "statusLembaga": { "type": "string", "enum": ["Negeri", "Swasta"] },
+        "kepalaSekolah": { "type": "string" },
+        "nipKepalaSekolah": { "type": "string" },
+        "operator": { "type": "string" },
+        "email": { "type": "string" },
+        "whatsapp": { "type": "string" },
+        "telepon": { "type": "string" },
+        "alamat": { "type": "string" },
+        "desa": { "type": "string" },
+        "kecamatan": { "type": "string" },
+        "kabupaten": { "type": "string" },
+        "provinsi": { "type": "string" }
+      },
+      "required": ["id", "npsn", "namaLembaga", "jenjang", "statusLembaga", "kepalaSekolah", "operator"]
+    },
+    "Buku": {
+      "title": "Buku",
+      "description": "Master data buku referensi yang disediakan oleh CV",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "kodeBuku": { "type": "string" },
+        "isbn": { "type": "string" },
+        "judul": { "type": "string" },
+        "penulis": { "type": "string" },
+        "penerbit": { "type": "string" },
+        "jenjang": { "type": "string" },
+        "kelas": { "type": "string" },
+        "mataPelajaran": { "type": "string" },
+        "kurikulum": { "type": "string" },
+        "hargaReferensi": { "type": "number" },
+        "satuan": { "type": "string" },
+        "status": { "type": "string", "enum": ["ACTIVE", "INACTIVE"] }
+      },
+      "required": ["id", "kodeBuku", "judul", "penerbit", "hargaReferensi", "status"]
+    },
+    "Pengajuan": {
+      "title": "Pengajuan",
+      "description": "Pengajuan kebutuhan buku oleh lembaga untuk perencanaan ARKAS",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "nomorPengajuan": { "type": "string" },
+        "lembagaId": { "type": "string" },
+        "tahunAnggaran": { "type": "string" },
+        "tanggalPengajuan": { "type": "string" },
+        "status": { "type": "string", "enum": ["DRAFT", "DIKIRIM LEMBAGA", "DIPERIKSA CV", "PERLU REVISI", "DISETUJUI", "SELESAI REKAP", "DITOLAK"] },
+        "catatanCv": { "type": "string" },
+        "keteranganUmum": { "type": "string" },
+        "totalBuku": { "type": "number" },
+        "totalNilai": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "nomorPengajuan", "lembagaId", "tahunAnggaran", "tanggalPengajuan", "status"]
+    },
+    "SystemSettings": {
+      "title": "SystemSettings",
+      "description": "Konfigurasi sistem, penomoran, periode pengajuan, dan notifikasi WhatsApp admin",
+      "type": "object",
+      "properties": {
+        "tahunAnggaranAktif": { "type": "string" },
+        "periodePengajuanBuka": { "type": "boolean" },
+        "prefixNomorPengajuan": { "type": "string" },
+        "digitNomorUrut": { "type": "number" },
+        "izinkanBukuCustom": { "type": "boolean" },
+        "notifWaAdminAktif": { "type": "boolean" },
+        "nomorWaAdmin": { "type": "string" },
+        "templatePesanWaAdmin": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "User" },
+      "description": "Akun pengguna sistem"
+    },
+    "/lembaga/{lembagaId}": {
+      "schema": { "$ref": "Lembaga" },
+      "description": "Data profil sekolah/lembaga"
+    },
+    "/buku/{bukuId}": {
+      "schema": { "$ref": "Buku" },
+      "description": "Master data buku penyedia"
+    },
+    "/pengajuan/{pengajuanId}": {
+      "schema": { "$ref": "Pengajuan" },
+      "description": "Pengajuan kebutuhan buku untuk ARKAS"
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "SystemSettings" },
+      "description": "Pengaturan sistem dan notifikasi WhatsApp"
+    }
+  }
+}

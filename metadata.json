@@ -1,0 +1,6 @@
+{
+  "name": "SIPOBU GARUT",
+  "description": "SIPOBU - Sistem Informasi Pemesanan Buku. Portal Satuan Pendidikan & CV Penyedia SIPLah.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
